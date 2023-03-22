@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html class=" js flexbox no-touch rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients no-cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio" dir="ltr" lang="fr">
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <title><?=$this->data["content"]["page_title"]?></title>
+		<meta name="robots" content="<?=((int)$this->data["content"]["page_index"] == 0)?"noindex,nofollow":"index,follow";?>" />  
+        
+        <meta name="description" content="<?=$this->data["content"]["page_meta_description"]?>" />
+        <meta name="author" content="" />
+		
+        <!-- ================  iOS/android/handheld specific =============== -->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <link rel="icon" type="image/x-icon" href="<?=$this->data["path"]?>/favicon.ico" />
+        <!-- ========================  CSS Files  ========================== -->
+        <?php if($this->mobile): ?>
+			 <link rel="stylesheet" type="text/css" media="all" href="<?=$this->data["path"]?>/style-min.css">
+			<?php else:	?>
+			<link rel="stylesheet" type="text/css" media="all" href="<?=$this->data["path"]?>/style.css">
+		  <? endif; ?>
+		
+		<?=$this->data["css"]?>
+        <!-- ========================  JS Files  ========================== -->
+		<?=$this->data["js"]?>
+		
+		
+        <!--[if lte IE 9]>
+		<script src="https://static.b-forbiz.com/modules/default/js/html5.js"></script>
+		<![endif]-->
+		<? if($this->data['content']['page_popup'] == '1') : ?>
+			<script>
+					var pics = new Array();
+					var widths = new Array();
+					var divs = new Array();
+					$(document).ready(function() {
+					   // put all your jQuery goodness in here.
+					   $('#content_box img').each( function(index) {
+						divs[index]=$("<div/>");
+						divs[index].append("<a class='fermer'>X<a/>");	   
+					   pics[index] =$("<img/>") // Make in memory copy of image to avoid css issues
+						.attr("src", $(this).attr("src"))
+						.load(function() {			
+						widths[index] = (this.width > 800)? 800:this.width;
+						});
+						pics[index].css('max-width', '800px');
+						pics[index].css('max-height', '600px');
+						divs[index].append(pics[index]);
+						$(this).click( function() {
+							var left = (screen.width/2)-(widths[index]/2);
+							divs[index].bPopup({
+							position: [left, 30], //x, y	
+							closeClass: 'fermer',			
+								zIndex: 90
+						});
+						});
+						});
+					 });
+			</script>
+			<style>
+				.fermer{
+					cursor:pointer;
+					position:absolute;
+					right:10px;
+					top:5px;
+				}
+				#content_box img:hover{
+					cursor:pointer;
+					-moz-opacity: 0.70;
+					-khtml-opacity: 0.70;
+					opacity: 0.70;
+					-ms-filter:"progid:DXImageTransform.Microsoft.Alpha"(Opacity=70);
+					filter: progid:DXImageTransform.Microsoft.Alpha(opacity=70);
+					filter:alpha(opacity=70);
+				}
+			</style>
+			
+		<? endif; ?>
+		<style>
+			.nks_cc_trigger_tabs .ncf-tab-icon:after {
+					content: '<?= $this->translate("CONTACTEZ-NOUS") ?>';
+			}
+		</style>
+		<script>	
+			$(document).ready(function() {
+			$('#content_box ul').each( function(index) {
+			var divv=$("<div/>");
+			});
+			
+		 });
+        </script>
+        <script>
+            function popupcentree(page,largeur,hauteur,options)
+            { 
+                if (options=="") options = "menubar=no,scrollbars=yes,statusbar=no";
+                var top=(screen.height-hauteur)/2;
+                var left=(screen.width-largeur)/2;
+                window.open(page,"popup","top="+top+",left="+left+",width="+largeur+",height="+hauteur+","+options); 
+            }
+			
+            function printBon(id)
+            {
+                  popupcentree("<?=$this->data["root"]?>reduction-"+id,900,250,"");
+            }
+        </script>
+		<script>
+		jQuery("document").ready(function($){
+			var nav = $('.fixedd');
+			$(window).scroll(function () {
+				if ($(this).scrollTop() > 0) {
+					nav.css({ 'display': "block" });
+				} else {
+					nav.css({ 'display': "none" });
+				}
+			});
+		});
+		</script>
+		<script>
+			 jQuery("document").ready(function($){
+				
+				var nav = $('.bar-header');
+				
+				$(window).scroll(function () {
+					if ($(this).scrollTop() > 0) {
+						nav.addClass("f-nav");
+					} else {
+						nav.removeClass("f-nav");
+					}
+				});
+			 
+			});
+		</script>
+		<script type="text/javascript">
+            $(function() {
+             $('#dl-menu').dlmenu();
+             });
+        </script>
+	<?php echo $this->data["cookies"];?>
+    	<?= $this->data["params"]["analytics"]["ganalytics_head"] ?>
+<?=$this->data["params"]["analytics"]["ganalytics_script"]?>
+</head>
+    <body>
+		<?php echo $this->data["publisite"]["popup"];?>
+			<div id="ncf_sidebar" class="ncf_minimalistic ncf_imagebg_none ncf_up_style_theme_custom ncf_active_1" style="display: block;">
+			<div class="ncf_sidebar_cont_scrollable">
+
+				<span class="phone"><i class="fa fa-mobile"></i><?= ($this->mobile)? $this->phoneNumber($this->data["publisite"]["publisite_telephone"],true):$this->phoneNumber($this->data["publisite"]["publisite_telephone"])?></span>
+				<div class="ncf_sidebar_cont" style="min-height: 0px;">
+					<div class="ncf_form_wrapper ncf_form_1 ncf_default_form" data-index="1" style="display: block;">
+						<div class="ncf_sidebar_content">
+							<? if (in_array('valid', $this->arr)): ?>
+                                <h3><span style="color:green;">Demande envoyée</span></h3>
+                                <script>
+                                    $(document).ready(function () {
+                                        $('input').val('');
+                                        $('textarea').val('');
+                                    });
+                                </script>
+                            <? endif; ?>
+                          <? echo $this->formsp; ?>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="ncf-overlay-wrapper" style="visibility: hidden;"><div id="ncf-overlay"></div></div>
+													<div id="dl-menu" class="dl-menuwrapper">
+												<button class="dl-trigger">Open Menu</button>
+												<ul class="dl-menu">
+													<?php foreach ($this->data["principalmenus"] as $menu): ?>
+														<?php if ($this->data["actif"] == $menu["page_menu_link"]) : ?>
+															<li class="<?php echo $menu["page_menu_link"]; ?>"><a title="<?=$menu["page_menu_label"]?>"class="active" href="<?=$this->data["root"] . $menu["page_menu_link"]?>"><?=$menu["page_menu_label"]?></a></li>
+														<?php else : ?>
+															<li class="<?php echo $menu["page_menu_link"]; ?>"><a title="<?=$menu["page_menu_label"]?>" href="<?=$this->data["root"] . $menu["page_menu_link"]?>"><?=$menu["page_menu_label"]?></a></li>
+														<?php endif;?>
+													<?php endforeach; ?>
+													<li><a title="Contact" href="/contact" class="active">Contact</a></li>
+												</ul>
+												<span>Menu</span>
+																							<span class="phone-mobile"><i class="fa fa-mobile"></i><span>
+											
+										   <?= ($this->mobile)? $this->phoneNumber($this->data["publisite"]["publisite_telephone"],true):$this->phoneNumber($this->data["publisite"]["publisite_telephone"])?></span>
+											</span>
+											</div><!-- /dl-menuwrapper -->
+		<div class="head-slide">
+			<header class="main-header">
+				<section class="bar-header">
+						<div class="">
+							<div class="cont-ligne">
+								<div class="cont-large-3 cont-moyen-3 cont-small-12 cont-x-small-12">
+									<span id="logo">
+										<a href="/" title="<?=$this->data["publisite"]["publisite_nom"]?>"></a>
+										<span class="slogan">MARIE-STÉPHANIE VERVAEKE <br>AVOCAT À NEUVILLE-EN-FERRAI - ROUBAIX</span>
+									</span><!-- END #logo -->
+								</div>
+								<div class="cont-large-9 cont-moyen-9 cont-small-12 cont-x-small-12 ">
+									<div class="cont-ligne blocheader">
+										<div class="cont-large-5 cont-moyen-5 cont-small-12 cont-x-small-12 " style="padding: 0 8px;">
+											<span class="adress-header">
+												<span><i class="fa fa-home"></i>156 rue de Tourcoing 59960 Neuville-en-Ferrain</span>
+											</span>
+											<span class="adress-header">
+												<span><i class="fa fa-home"></i>8 boulevard du Général de Gaulle 59100 Roubaix</span>
+											</span>
+										</div>
+										<div class="cont-large-3 cont-moyen-4 cont-small-12 cont-x-small-12 ">
+											<span class="phone"><i class="fa fa-mobile"></i><span>
+											
+										   <?= ($this->mobile)? $this->phoneNumber($this->data["publisite"]["publisite_telephone"],true):$this->phoneNumber($this->data["publisite"]["publisite_telephone"])?></span>
+											</span>
+										</div>
+										<div class="cont-large-4 cont-moyen-3 cont-small-12 cont-x-small-12 ">
+											<div class="banner-header langue">
+												<i class="fa fa-clock-o"></i><span class="horaire"> Lundi, Mardi, Jeudi et Vendredi <br>9h-13h et 14h-19h <br>Mercredi 8h30-12h30</span>
+											</div>
+										</div>
+									</div>
+									<div class="cont-ligne">
+										<div class="header-navbar">
+											<nav id="menu-drink">
+												<ul>
+													<?php foreach ($this->data["principalmenus"] as $menu): ?>
+														<?php if ($this->data["actif"] == $menu["page_menu_link"]) : ?>
+															<li class="<?php echo $menu["page_menu_link"]; ?>"><a class="active" href="<?=$this->data["root"] . $menu["page_menu_link"]?>" title="<?=$menu["page_menu_label"]?>"><?=$menu["page_menu_label"]?></a></li>
+														<?php else : ?>
+															<li class="<?php echo $menu["page_menu_link"]; ?>"><a href="<?=$this->data["root"] . $menu["page_menu_link"]?>" title="<?=$menu["page_menu_label"]?>"><?=$menu["page_menu_label"]?></a></li>
+														<?php endif;?>
+													<?php endforeach; ?>
+													<li><a href="/contact"  title="Contact" class="active">Contact</a></li>
+												</ul>
+											</nav> 
+										</div>	
+										
+
+										
+									</div>
+								</div>
+							</div>
+						</div>  
+			    </section>
+			</header>
+		
+			<div id="bandeaux" class="clearfix">
+				<div class="right">
+				<ul class="rslides">
+					<li><img src="<?=$this->data["path"]?>/images/slider/slider-1.jpg" alt="Maître Jessy Lelong votre avocat" /></li>	
+					<li><img src="<?=$this->data["path"]?>/images/slider/slider-2.jpg" alt="Maître Jessy Lelong votre avocat" /></li>
+				</ul>
+				</div>
+		   </div>
+			
+		</div>	
+
+	    <div id="scrolltop" class="fixedd scrollup">
+			<a href="#" title="Scroll to top" class="cd-top"><i class="fa fa-angle-up"></i></a>
+		</div>
+		<?php if((int)$this->data["content"]["page_id"] == 18601): ?>
+		<section id="main7">
+			<div class="container">
+				<div class="cont-ligne">
+					<div class="cont-moyen-3 cont-small-12 cont-x-small-12">
+						<div class="imgAccueil">
+							<img alt="Votre Avocat, Marie-Stéphanie Vervaeke"  src="<?=$this->data["path"]?>/images/profile.jpg"/>
+						</div>
+					</div>
+					<div class="cont-moyen-9 cont-small-12 cont-x-small-12">
+						<div class="qui-suis-je">
+							<?=$this->data["content"]["page_contenu"]?>
+							<div class="ContQui">
+									Maître Marie-Stéphanie VERVAEKE, avocat au Barreau de Lille (59) vous accueille au cabinet de Neuville-en-Ferrain (156 rue de Tourcoing), ainsi qu’à Roncq (305 rue de Lille 59223 Roncq) du lundi au vendredi de 9h00 à 19h00. Les consultations se font uniquement sur rendez-vous. Votre avocat intervient en droit des personnes et de la famille et en droit du travail.
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<? endif;?>
+		<section id="main">
+			<div class="container">
+				<div class="cont-ligne">
+						<div class="cont-small-8">
+									<article>
+									<div class="ContNewPlan">
+									<div class="CoorPlan">
+										<div class="BlocCoorPlan">
+											<span class="TitreCoorPlan">Coordonnées</span>
+											<div class="ContCoorPlan">
+												<ul>
+									
+													<li>
+                                                        <span class="adressePlan"><i class="fa fa-map-marker" aria-hidden="true"></i><span>156 rue de Tourcoing<br> 59960 Neuville-en-Ferrain</span></span>
+													</li>
+													<li>
+                                                        <span class="adressePlan"><i class="fa fa-map-marker" aria-hidden="true"></i><span>8 boulevard du Général de Gaulle<br> 59100 Roubaix</span></span>
+													</li>
+													<li>
+												<span class="phone"><i class="fa fa-mobile" aria-hidden="true"></i><?= ($this->mobile)? $this->phoneNumber($this->data["publisite"]["publisite_telephone"],true):$this->phoneNumber($this->data["publisite"]["publisite_telephone"])?></span>
+													
+														</li>
+													
+												</ul>
+											</div>
+										</div>
+										<div class="BlocCoorPlan">
+											<span class="TitreCoorPlan">Horaires </span>
+											
+											<div class="ContCoorPlan">
+												<span class="HorairesPlan"><i class="fa fa-clock-o" aria-hidden="true"></i>Lundi, Mardi, Jeudi et Vendredi <br>9h-13h et 14h-19h <br>Mercredi 8h30-12h30</span><br>
+
+												<br>
+
+											</div>
+										</div>
+										<div class="BlocCoorPlan">
+											<span class="TitreCoorPlan">Infos Pratiques</span>
+											<div class="ContCoorPlan">
+												Cabinet de Neuville : Métro Pont de Neuville <br>
+												Parking : rue du Christ en face du cabinet <br>
+												Cabinet de Roubaix : métro et tramway Roubaix Eurotéléport
+											</div>
+										</div>
+									</div>
+									</div>
+							<div class="new-contact">
+								<div class="contact">
+									<? if($this->arc && in_array('valid', $this->arc)): ?>							
+									<h3><span style="color:green;"><?= $this->translate("Merci! Demande envoyée") ?></span></h3>
+									<? endif; ?>
+									  <? echo $this->formspc; ?>  
+								</div>
+			
+							</div>
+									</article>
+						</div>
+						<div class="cont-large-4 cont-moyen-4 cont-small-4 cont-x-small-12">
+							<aside class="sidebar flexible sidebar-1">
+								<div id="sidebars" class="g">
+									<div class="sidebar">
+										<ul class="sidebar_list">
+									<li class="widget widget-sidebar bg-profil">  
+													<img alt="Votre Avocat, Marie-Stéphanie Vervaeke"  src="<?=$this->data["path"]?>/images/profile.jpg" class="profile"/>
+												<span class="titre-widget">Maître <strong><?=$this->data["publisite"]["publisite_nom"]?></strong><br>votre avocat </span>
+											<div class="disponible">
+												<ul  class="text-widget">
+												<li  class="text-widget">Avocat d’expérience</li>
+												<li>Votre satisfaction est notre priorité</li>
+												
+												</ul>
+																				
+											</div> 
+									</li>
+									
+										<? if($this->data['avisClient']) : ?>
+											 <li class="widget widget-sidebar">
+													<?=$this->data['avisClient']?>
+											 </li>
+										 <? endif;?>
+										</ul>
+									</div>
+								</div><!--sidebars-->
+							</aside>
+						</div>
+					
+				</div>
+			</div>
+        </section>
+						<section id="main2">
+			
+						<ul class="grid ">
+							
+							<?php foreach ($this->data["menus"] as $menu): ?>
+								<?php if (($menu["page_menu_poid"] < 9)&&($menu["page_menu_poid"] != 0)): ?>
+								<li>
+									<figure class="effect-lily">
+										<a href="<?=$this->data["root"] . $menu["page_menu_link"]?>"title="<?=$menu["page_menu_label"]?>">
+										 	<img class="img-responsive" src="<?=$this->data["path"]?>/images/images/vign-<?=$menu["page_menu_link"]?>.jpg" alt="<?=$menu["page_menu_label"]?>"/>
+											 <span>
+											 <?=$menu["page_menu_label"]?>
+											</span>
+										</a>
+									</figure>
+								</li>
+								<?php endif; ?>
+							<?php endforeach; ?>
+						
+						</ul>
+						
+			
+		</section>
+<section id="main4">
+		<div class="cont-ligne">
+			<div class="cont-large-12">
+				<div class="location full-bottom">
+					<a href="#" class="map-activation">
+						<strong>Cliquez pour activer la carte </strong>
+					</a>
+				</div>
+				<? if($this->data['module']['module_gmaps']) : ?>
+					<div class="marker">
+						<div id="map">
+							<?=$this->helper->partial('index-map-js.phtml',array('mapsjs'=>$this->data["params"]["gmaps"],'path'=>$this->data["path"]))?>
+							<?=$this->helper->partial('index-map.phtml',array('map'=>$this->data["params"]["gmaps"]))?>
+						</div>	
+					</div>
+				<? endif;?>
+			</div>		
+		</div>			
+	</section>
+	
+		 <footer>
+            <div class="container">
+				<div class="footer-menu">
+					<div class="cont-ligne">
+						<div class="cont-large-12 cont-moyen-12 cont-small-12 cont-x-small-12">
+							<nav id="navfooter">
+														<ul class="mention">
+								<?php echo $this->data["publisite"]["plansite"]["plansite"];?>
+								<?php echo $this->data["publisite"]["mentions"]["mentions"];?>
+							</ul>
+								 <ul>
+
+									<?php foreach ($this->data["menus"] as $menu): ?>
+										<?php if (($menu["page_menu_poid"] < 11)): ?>
+											<?php if ($this->data["actif"] == $menu["page_menu_link"]) : ?>
+												<li><a class="active" href="<?=$this->data["root"] . $menu["page_menu_link"]?>" title="<?=$menu["page_menu_label"]?>"><?=$menu["page_menu_label"]?></a></li>
+											<?php else : ?>
+												<li><a href="<?=$this->data["root"] . $menu["page_menu_link"]?>" title="<?=$menu["page_menu_label"]?>"><?=$menu["page_menu_label"]?></a></li>
+											<?php endif;?>	
+										<?php endif; ?>
+									<?php endforeach; ?>
+									<li><a href="/contact" title="Contact" class="active">Contact</a></li>
+									
+								</ul>
+							</nav>
+							<hr>
+						</div>
+						<div class="cont-large-12 cont-moyen-12 cont-small-12 cont-x-small-12">
+							<div class="cont-ligne">
+								<div class="cont-large-6 cont-moyen-6 cont-small-6 cont-x-small-12 footer-adr" >
+									<div class="adresse">
+										<div class="clearfix">
+											<a href="/" title="<?=$this->data["publisite"]["publisite_nom"]?>" style="vertical-align: -webkit-baseline-middle;" class=" logo-bottom"><img  src="<?=$this->data["path"]?>/images/logo.png" alt="<?=$this->data["publisite"]["publisite_nom"]?>"/></a>
+											<span class="bottom-slogan">MARIE-STÉPHANIE VERVAEKE <br>AVOCAT À NEUVILLE-EN-FERRAI - ROUBAIX</span>
+										</div>
+										<div class="address-footer clearfix">
+											<span class="adresse-footer"><i class="fa fa-home"></i><span>156 rue de Tourcoing<br>59960 Neuville-en-Ferrain</span></span>
+											<span class="adresse-footer"><i class="fa fa-home"></i><span>8 boulevard du Général de Gaulle<br>59100 Roubaix</span></span>
+										</div>
+										<div class="phone-footer clearfix">
+										  <span class="phone"> <i class="fa fa-mobile"></i><span><?= ($this->mobile)? $this->phoneNumber($this->data["publisite"]["publisite_telephone"],true):$this->phoneNumber($this->data["publisite"]["publisite_telephone"])?></span></span>
+										</div>
+									</div>
+								</div>
+								<div class="cont-large-5 cont-moyen-5 cont-small-5 cont-x-small-12">
+									<div class="copyrights">
+										<span class="cliqeo">© 2018 | Tous droits réservés<br>
+										<?=$this->data["text"]["copyright"]?> <?=$this->data["logo"]["copyright"]?>
+										</span>
+														
+									</div>
+								</div>
+								
+								<div class="cont-large-1 cont-moyen-1 cont-small-1 cont-x-small-12">
+									<div class="iconreseau clearfix">
+										<a title="Google plus" class="g_plus_ic" target="_blank" href="<?php echo $this->data["params"]["gmaps"]["gmaps_googleplus"] ?>"><i class="fa fa-google-plus-square fa-4x fa-fw" aria-hidden="true"></i></a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>	
+				</div>
+            </div><!--.container-->
+        </footer><!--footer-->
+			<!-- Start google map -->
+
+        <!-- initialize replaced -->
+			<script src="//sites.b-forbiz.com/modules/default/js/scripts.js" type="text/javascript" charset="utf-8"></script>
+			
+			<script>
+				 jQuery(document).ready(function($){
+				// browser window scroll (in pixels) after which the "back to top" link is shown
+				var offset = 300,
+					//browser window scroll (in pixels) after which the "back to top" link opacity is reduced
+					offset_opacity = 1200,
+					//duration of the top scrolling animation (in ms)
+					scroll_top_duration = 700,
+					//grab the "back to top" link
+					$back_to_top = $('.cd-top');
+
+				//hide or show the "back to top" link
+				$(window).scroll(function(){
+					( $(this).scrollTop() > offset ) ? $back_to_top.addClass('cd-is-visible') : $back_to_top.removeClass('cd-is-visible cd-fade-out');
+					if( $(this).scrollTop() > offset_opacity ) { 
+						$back_to_top.addClass('cd-fade-out');
+					}
+				});
+
+				//smooth scroll to top
+				$back_to_top.on('click', function(event){
+					event.preventDefault();
+					$('body,html').animate({
+						scrollTop: 0 ,
+						}, scroll_top_duration
+					);
+				});
+
+			});
+		</script>
+		<?php if($_GET['submit'] == 1): ?>
+			<script>
+				jQuery(document).ready(function($){
+					
+					$('body').addClass('ncf_on ncf_sidebar_slide ncf_sidebar_pos_right ncf_exposed hider');
+					$('#ncf-overlay-wrapper').css('visibility', 'visible');
+					
+					$('#ncf-overlay-wrapper').click(function() {
+						$('body').removeClass('ncf_on ncf_sidebar_slide ncf_sidebar_pos_right ncf_exposed hider').addClass('ncf_on ncf_sidebar_slide ncf_sidebar_pos_right');
+					});
+				});
+				
+			</script>
+		<?php $_GET['submit'] = 0; ?>
+		<?php endif; ?>
+		<script>
+			window.setTimeout(function () {
+		   $('.alert').fadeTo(500, 0).slideUp(500, function () {
+						   $(this).remove();
+		   });
+		   }, 5000);
+		</script>
+		<script type="text/javascript">
+			$(".rslides").responsiveSlides({
+				pager: true,
+				speed: 500,
+				auto: true,
+				pause: true,
+				nav: true,
+				namespace: "callbacks",
+				before: function () {
+				  $('.events').append("<li>before event fired.</li>");
+				},
+				after: function () {
+				  $('.events').append("<li>after event fired.</li>");
+				}
+			});
+		</script>		
+					<script type="text/javascript"> 
+		$(document).ready(function(){
+		   $(".grid").owlCarousel({
+			    loop:true,
+			    margin: 20,
+			    responsiveClass:true,
+			    itemsCustom : [
+						[0, 1],
+						[450, 1],
+						[600, 1],
+						[768, 2],
+						[900, 2],
+						[992, 2],
+						[1000, 2],
+						[1100, 2],
+						[1200, 2],
+						[1400, 2],
+						[1600, 2]
+					  ],
+			     	navigation : false,
+					  pagination : true,
+					  autoPlay: false,
+					  slideSpeed: 500,
+					  autoplayTimeout:4000,
+					  autoplayHoverPause:true,
+					  paginationSpeed : 800
+			})
+		});
+        </script>
+		
+	
+    	<?= $this->data["params"]["analytics"]["ganalytics_body"] ?>
+</body> 
+</html>

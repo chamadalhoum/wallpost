@@ -1,0 +1,310 @@
+
+<form action=""
+  method="<?php print $this->escape($this->element->getMethod()); ?>"
+  name="<?php print $this->escape($this->element->getName()); ?>"
+  id="<?php print $this->escape($this->element->getId()); ?>"
+  enctype="<?php print $this->escape($this->element->getAttrib('enctype')); ?>"
+  class="<?php print $this->escape($this->element->getAttrib('class')); ?>">
+<div class="control-group">
+  <label for="nom" class="control-label invalid hide"><i class="fa fa-user"></i> <?=$this->element->nom->getLabel(); ?>
+	: </label>
+	<?=$this->element->nom; ?>
+</div>
+<div class="control-group">
+ <label for="telephone" class="control-label invalid hide"><i class="fa fa-phone"></i><?=$this->element->telephone->getLabel(); ?> : </label>
+  <div class="controls"> 
+  <?=$this->element->telephone; ?>
+  </div>
+</div>
+<div class="control-group">
+ <label for="email" class="control-label invalid hide"><i class="fa fa-at"></i><?=$this->element->email->getLabel(); ?>  : </label>
+  <div class="controls"> 
+  <?=$this->element->email; ?>
+  </div>
+</div>
+<div class="control-group">
+  <div class="controls"> 
+  <?=$this->element->listedevaleurs; ?>
+  </div>
+</div>
+<div class="control-group">
+ <label for="message" class="control-label invalid hide"><i class="fa fa-envelope"></i><?=$this->element->message->getLabel(); ?> : </label>
+  <div class="controls"> 
+  <?=$this->element->message; ?>
+  </div>
+</div>
+<? $captcha ="g-recaptcha-response"; ?>
+<? $captcha ="g-recaptcha-response"; ?>
+<? if(isset($this->element->$captcha)): ?>
+<div class="control-group">
+ <label for="g-recaptcha-response" class="control-label"> Captcha </label>
+ <div class="controls">	
+ <?=$this->element->$captcha; ?>
+</div>
+</div>
+<? elseif(isset($this->element->captcha)): ?>
+<div class="control-group">
+ <label for="lrcommentaire" class="control-label"> <?=$this->element->captcha->getLabel(); ?> <?=($this->element->captcha->isRequired())? "*":""; ?> :</label>
+<div class="controls">	
+ <?=$this->element->captcha; ?>
+</div>
+</div>
+<? endif; ?>
+<?=$this->element->formulaire_id; ?>
+<?=$this->element->mnst_id; ?>
+<?=$this->element->submit; ?>
+</form>
+<script>
+			var	$input = $("#contactform input[type=text],#contactform input[type=tel],#contactform input[type=email]");
+				$form = $("form[name='contactform']");
+			    $textarea = $("#contactform textarea");
+				$submit = $("#contactform input[type=submit]");
+				$("#contactform ul.errors li").html("");
+				$input.attr("required","");
+				$textarea.attr("required","");
+				//$("#contactform #telephone").attr("pattern","0[1-9][0-9]{8}");
+				$("#contactform #telephone").attr("maxLength","14");
+				$("#contactform #telephone").attr("minlength","8");
+				$("#contactform #email").attr("pattern","[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$");
+				
+				$input.attr('oninput',"setCustomValidity('')");
+				$input.attr('oninvalid',"this.setCustomValidity('<?= $this->translate("Veuillez renseigner ce champ.")?>')");
+				$textarea.attr('oninput',"setCustomValidity('')");
+				$textarea.attr('oninvalid',"this.setCustomValidity('<?= $this->translate("Veuillez renseigner ce champ.")?>')");
+				$("#contactform #message").attr("placeholder","Message");
+			var bool ;
+			var booll ;
+			var testFinal = function () {
+				if(($("#contactform input").val() != "") && ($("#contactform textarea").val() != "")){
+					$("#contactform #searchsubmit").val($("#contactform #searchsubmit").val());
+					$("#contactform #searchsubmit").removeClass("fail");
+					$("#contactform #searchsubmit").addClass("btn-envoie");
+					$("#contactform #searchsubmit").removeClass("btn btn-primary btn-block envoye");
+					$("#contactform #searchsubmit").css({
+					"box-shadow": "none"
+					});
+				}
+			};
+			var testErreur = function () {
+				if(($("#contactform input.valid").length != $input.length) || ($("#contactform textarea.valid").length != 1)){
+					var msg = $("#contactform #searchsubmit").attr("data-msg");
+					if(msg) {
+						$("#contactform #searchsubmit").val(msg);
+					} else {
+						$("#contactform #searchsubmit").val('<?php echo $this->translate("UNE ERREUR EST SURVENUE")?>');
+					}
+					$("#contactform #searchsubmit").addClass("fail");
+					$("#contactform #searchsubmit").removeClass("btn-envoie");
+					$("#contactform #searchsubmit").removeClass("btn btn-primary btn-block envoye");
+					$("#contactform #searchsubmit").css({
+					"box-shadow": "none",
+					"border":"none"
+					});
+			}
+			};
+			$input.on('focus', function() {
+				var $label = $("label[for='" + this.id + "']");
+				$label.removeClass("hide").addClass('active');
+				$input.addClass("invalid");
+			});
+			
+			$textarea.on('focus', function() {
+				var $label = $("label[for='message']");
+				$label.removeClass("hide").addClass('active');
+				$textarea.addClass("invalid");
+				
+			});
+			
+			$input.bind("input change", function() {
+				var $label = $("label[for='" + this.id + "']");
+				if($(this).val()){
+					$label.removeClass("invalid").addClass('valid');
+					$(this).addClass('valid');
+				}else{
+					$label.removeClass("valid").addClass('invalid');
+					$(this).addClass('invalid');
+				}
+				
+			});
+			
+			$textarea.bind("input change", function() {
+				var $label = $("label[for='message']");
+				if($(this).val()){
+					$label.removeClass("invalid").addClass('valid');
+					$(this).addClass('valid');
+				}else{
+					$label.removeClass("valid").addClass('invalid');
+					$(this).addClass('invalid');
+				}
+				
+			});
+	
+			$input.on('keyup focus blur', function() {
+				var $label = $("label[for='" + this.id + "']");
+				$label.removeClass("hide").addClass('active');
+				if(this.checkValidity()){
+					$label.addClass("valid").removeClass("invalid");
+					$(this).addClass("valid").removeClass("invalid");
+					$("#contactform #searchsubmit").val($("#contactform #searchsubmit").val());
+					$("#contactform #searchsubmit").val("<?= $this->translate("Envoyer")?>");
+					$("#contactform #searchsubmit").removeClass("fail");
+					$("#contactform #searchsubmit").addClass("btn-envoie");
+					$("#contactform #searchsubmit").removeClass("btn btn-primary btn-block envoye");
+					$("#contactform #searchsubmit").css({
+					"box-shadow": "none"
+					});
+					
+				} else {
+					$label.removeClass("hide").addClass('active');
+				}
+				var tab = [];	
+				$input.each(function(){
+					var $label = $("label[for='" + this.id + "']");
+					$label.removeClass("hide").addClass('active');
+					$label.removeClass("valid").addClass('invalid');
+					tab.push($(this).val());
+					if($(this).val()){
+						if(this.checkValidity()){
+							$label.addClass("valid").removeClass("invalid");
+							$(this).addClass("valid").removeClass("invalid");
+						} else {
+							$label.addClass("invalid").removeClass("valid");
+							$(this).addClass("invalid").removeClass("valid");
+						
+						}
+					}
+				});
+				if(jQuery.inArray('',tab)> 0 ) {
+					return bool = true;
+					
+				}
+				else {
+					return bool = false;
+				}
+				testFinal();
+			});
+			$textarea.on('keyup focus blur', function() {
+				var $label = $("label[for='message']");
+				$label.removeClass("hide").addClass('active');
+				$("textarea").removeClass("valid").addClass('invalid');
+				if(this.checkValidity()){
+					$label.addClass("valid").removeClass("invalid");
+					$(this).addClass("valid").removeClass("invalid");
+					$("textarea").removeClass("valid");
+					$("#contactform #searchsubmit").val("<?= $this->translate("Envoyer")?>");
+					$("#contactform #searchsubmit").removeClass("fail");
+					$("#contactform #searchsubmit").addClass("btn-envoie");
+					$("#contactform #searchsubmit").removeClass("btn btn-primary btn-block envoye");
+					$("#contactform #searchsubmit").css({
+					"box-shadow": "none"
+					});
+					
+				} else {
+					$label.addClass("invalid").removeClass("valid");
+					$(this).addClass("invalid").removeClass("valid");
+				}
+                var tabS = [];	
+				$textarea.each(function(){
+					var $label = $("label[for='message']");
+					$("textarea").removeClass("valid").addClass('invalid');
+                    tabS.push($(this).val());
+					if($(this).val()){
+						if(this.checkValidity()){
+							$label.addClass("valid").removeClass("invalid");
+							$(this).addClass("valid").removeClass("invalid");
+						} else {
+							$label.addClass("invalid").removeClass("valid");
+							$(this).addClass("invalid").removeClass("valid");
+						}
+					}
+				if(jQuery.inArray('',tabS)> 0 ) {
+					return booll = true;
+					
+				}
+				else {
+					return booll = false;
+				}
+				});
+				testFinal();
+			});
+			
+			$textarea.on('blur', function() {
+				$("textarea").removeClass("valid").addClass('invalid');
+				var $label = $("label[for='message']");
+				$label.removeClass('active');
+				if(!$(this).val()){
+					$("label").addClass("hide");
+				}
+				$textarea.each(function(){
+					var $label = $("label[for='message']");
+					$("#contactform textarea").removeClass("valid");
+					if($(this).val()){
+						$label.removeClass("hide");
+					}
+				});
+			});	
+			
+			$input.on('blur', function() {
+				var $label = $("label[for='" + this.id + "']");
+				$label.removeClass("hide").addClass('active');
+				$label.removeClass('active');
+				$label.addClass('valid');
+				if(!$(this).val()){
+					$("label").addClass("hide");
+				}
+				$input.each(function(){
+					var $label = $("label[for='" + this.id + "']");
+					if($(this).val()){
+						$label.addClass('valid');
+						$label.removeClass("hide");
+					}
+				});
+			});
+			
+			$("#contactform #searchsubmit").click(function() {
+				testErreur();
+				if((($("#contactform input").val() == "") && ($("#contactform textarea").val() == "")) || ($("#contactform textarea").val() == "") ){
+					$textarea.addClass("invalid");
+					$input.addClass("invalid");
+					$("label[for='message']").removeClass("hide");
+					$("#contactform #searchsubmit").removeClass("btn-envoie");
+					$("#contactform #searchsubmit").addClass("fail");
+					$("#contactform #searchsubmit").val('<?php echo $this->translate("UNE ERREUR EST SURVENUE")?>');
+				}
+				var msg = $("#contactform #searchsubmit").attr("data-msg");
+				if(bool == true){
+					if(msg) {
+						$("#contactform #searchsubmit").val(msg);
+					} else {
+						$("#contactform #searchsubmit").val('<?php echo $this->translate("UNE ERREUR EST SURVENUE")?>');
+					}
+					$("#contactform #searchsubmit").addClass("fail");
+					$("#contactform #searchsubmit").removeClass("btn-envoie");
+					$("#contactform #searchsubmit").removeClass("btn btn-primary btn-block envoye");
+					$("#contactform #searchsubmit").css({
+					"box-shadow": "none",
+					"border":"none"
+					});
+				}
+				if(booll == true){
+					if(msg) {
+						$("#contactform #searchsubmit").val(msg);
+					} else {
+						$("#contactform #searchsubmit").val("UNE ERREUR EST SURVENUE");
+					}
+					$("#contactform #searchsubmit").addClass("fail");
+					$("#contactform #searchsubmit").removeClass("btn-envoie");
+					$("#contactform #searchsubmit").removeClass("btn btn-primary btn-block envoye");
+					$("#contactform #searchsubmit").css({
+					"box-shadow": "none",
+					"border":"none"
+					});
+				}
+			});
+			
+			$("#contactform #searchsubmit").attr('value','Envoyer');
+			
+		jQuery(document).ready(function() {
+	      jQuery('#contactform #message').attr('placeholder','Votre message');
+	});
+</script>
